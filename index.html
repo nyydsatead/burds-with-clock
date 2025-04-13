@@ -8,13 +8,11 @@
 <title>burds!</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<!-- Facebook Open Graph tags -->
+<!-- Social media preview tags -->
 <meta property="og:url" content="https://burds.vercel.app/" />
 <meta property="og:title" content="burds!" />
 <meta property="og:description" content="... just a bunch of burds, jumpin' around" />
 <meta property="og:image" content="https://burds.vercel.app/img/screenshot-thumb.jpg" />
-
-<!-- Twitter Card (large image card) tags -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:creator" content="@thesephist">
 <meta name="twitter:title" content="burds!">
@@ -30,14 +28,13 @@ body {
 	background: #f0eff1;
 }
 
-
-
 canvas {
 	position: absolute;
 	top: 0;
 	left: 0;
 	pointer-events: none;
 }
+
 body::after {
 	content: '';
 	position: absolute;
@@ -48,6 +45,7 @@ body::after {
 	background: linear-gradient(to bottom, rgba(240, 239, 241, 0.75), rgba(255, 255, 255, 0) 50%);
 	pointer-events: none;
 }
+
 #attribution {
 	font-family: system-ui, sans-serif;
 	position: absolute;
@@ -80,7 +78,6 @@ button.hideButton:hover {
 	color: #aaa;
 }
 
-/* Quick and dirty dark theme */
 @media (prefers-color-scheme: dark) {
 	body {
 		background: #242324;
@@ -105,25 +102,39 @@ body.dark #attribution {
 
 #clock-container {
 	margin: 20px;
-	padding-top: 1px; /* 👈 Add this */
+	padding-top: 30px; /* spacing from the top */
 	text-align: right;
 	position: relative;
 	z-index: 10;
 }
 
-
-
-#clock{
+#clock {
 	color: #e0e0e0;
-	font-family: "JetBrains Mono";
+	font-family: "JetBrains Mono", monospace;
 	font-size: xx-large;
 }
-
 </style>
 
 <div id="clock-container">
-	<h2 id="clock">22:00</h2>
+	<h2 id="clock">--:--:--</h2>
 </div>
 
 <canvas style="width:0;height:0"></canvas>
 <script src="/bundle.js"></script>
+
+<!-- ✅ GMT+3 Clock Script -->
+<script>
+	function updateClock() {
+		const now = new Date();
+		// Convert to GMT+3 by adding 3 hours (in milliseconds)
+		const gmt3 = new Date(now.getTime() + 3 * 60 * 60 * 1000);
+		const hours = String(gmt3.getUTCHours()).padStart(2, '0');
+		const minutes = String(gmt3.getUTCMinutes()).padStart(2, '0');
+		const seconds = String(gmt3.getUTCSeconds()).padStart(2, '0');
+		document.getElementById("clock").textContent = `${hours}:${minutes}:${seconds}`;
+	}
+
+	// Update the clock immediately and then every second
+	updateClock();
+	setInterval(updateClock, 1000);
+</script>
